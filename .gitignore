@@ -1,0 +1,16 @@
+# Ignore build artifacts (if any)
+*.o
+*.out
+*.bin
+*.elf
+*.hex
+*.log
+
+# Ignore temporary files
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Ignore VS Code settings (if you don't want them in the repo)
+.vscode/
