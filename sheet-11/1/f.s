@@ -1,6 +1,6 @@
 # Pseudocode:
 
-# using else if:
+# using if:
 
 # if (x1==0) then
 #   x10=0;
