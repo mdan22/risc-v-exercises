@@ -1,0 +1,1 @@
+# Die Varianten aus b und c sind bereits sehr schnell. Je nachdem wie die Instruktionen OR und AND intern realisiert sind, könnte man damit noch schnellere Varianten implementieren. Man würde jedoch vermutlich mehr Register benötigen, um die Zwischenergebnisse zu speichern.

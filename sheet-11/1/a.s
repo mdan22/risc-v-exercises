@@ -9,7 +9,11 @@
 
 # Assembly Code
 
-# precondition: x1 != x2 then we expect x10 = 1 and x1 = 3 as result
+# Precondition: init x1, x2
+
+# example initialization: x1 = 1, x2 = 2 => (x1 != x2)
+# example expected result: x10 = 0
+
 addi x1, x0, 1
 addi x2, x0, 2
 
@@ -23,4 +27,6 @@ L1:
 addi x10, x0, 0 # then block
 
 L2:
-add x1, x1, x2  # whatever comes next e.g. store x1 + x2 in x1
+# whatever comes next
+
+# Je nachdem welche Bedingung für das Problem relevanter ist, also häufiger auftritt, kann man BNE (mit x1 != x2) oder BEQ (mit x1 == x2) verwenden. Wenn man BNE durch BEQ ersetzt, muss man einfach nur den then block mit dem else block vertauschen. Dann funktioniert der if-then-else-block auch mit BEQ.
