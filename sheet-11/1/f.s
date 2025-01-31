@@ -24,7 +24,7 @@
 #   default then x10=42
 # esac
 
-# Assembly Code
+# Assembly Code:
 
 # Precondition: init x1, x20=0, x21=1, x22=2, x23=3
 

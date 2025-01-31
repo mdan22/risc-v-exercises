@@ -7,7 +7,7 @@
 # end if;
 
 
-# Assembly Code
+# Assembly Code:
 
 # Precondition: init x1, x2
 

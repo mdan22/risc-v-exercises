@@ -28,3 +28,27 @@
 #   end if;
 #   x2++;
 # end if;
+
+
+# Assembly Code:
+
+# Precondition: none
+
+addi x1, x0, 0
+addi x2, x0, 0
+addi x3, x0, 3
+
+L1:
+bge x1, x3, L4
+
+L2:
+bge x2, x3, L3
+addi x2, x2, 1
+jal x0, L2
+
+L3:
+addi x1, x1, 1
+jal x0, L1
+
+L4:
+# whatever comes next
