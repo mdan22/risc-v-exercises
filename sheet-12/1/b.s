@@ -1,5 +1,20 @@
 # Pseudocode:
 
+# trinum(trinum(n))
+#   a0 = 4
+#
+# trinum:
+#   do-while-loop:
+#   t0 = a0
+#   t1 = 1
+#
+#   do
+#     a0 += t1
+#     t1++
+#   while (t1!=t0)
+#   done
+
+
 # Assembly Code:
 
 # Precondition: save registers on stack, init vars a0, t0=a0
