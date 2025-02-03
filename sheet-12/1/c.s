@@ -8,7 +8,7 @@
 #   return n + recursive_tri_num(n-1)
 
 
-# Assembler (mit Sicherung auf dem Stack):
+# Assembler:
 
 # precondition: n >= 1
 
