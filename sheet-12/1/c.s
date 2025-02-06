@@ -26,14 +26,14 @@ lui sp, 0x10000
   ADDI a0, x0, 4
   JAL ra, tri_num_recursive
 
-  # restore stack
+  # restore ra from stack
   LW ra, 0(sp)
   ADDI sp, sp, 4
 
 JAL x0, END # } end of main program
 
 tri_num_recursive:
-  # store on stack
+  # store t0, ra on stack
   ADDI sp, sp, -8
   SW t0, 4(sp)
   SW ra, 0(sp)
@@ -42,13 +42,13 @@ tri_num_recursive:
   # in this case a0 = 0 is returned and it still works
   BEQ a0, x0, tri_done
 
-  ADD t0, x0, a0 # store current a0 in t0
+  ADDI t0, a0, 0 # store current a0 in t0
   ADDI a0, a0, -1 # decrement a0
   JAL ra, tri_num_recursive # recursive call
   ADD a0, a0, t0 # a0 = a0 + t0 cuz (n + recursive_tri_num(n-1))
 
   tri_done:
-  # restore stack
+  # restore ra, t0 from stack
   LW ra, 0(sp)
   LW t0, 4(sp)
   ADDI sp, sp, 8
