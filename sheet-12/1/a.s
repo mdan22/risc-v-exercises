@@ -23,8 +23,9 @@
 
 # Assembly Code:
 
-# Precondition: save register(s) on stack, init vars a0=n, t0=a0
-# example: a0=4
+# Precondition: save register(s) on stack, init vars a0=n=4, t0=a0
+
+tri_num:
 
 # Initialize stack pointer
 lui sp, 0x10000   # Set stack pointer to 0x10000000 (safe memory address), lower bits are automatically set to 0
