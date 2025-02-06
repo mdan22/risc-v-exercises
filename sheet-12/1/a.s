@@ -11,7 +11,8 @@
 
 # Assembly Code:
 
-# Precondition: save register(s) on stack, init vars a0=n=4, t0=a0
+# calculator of triangular numbers using iteration
+# Precondition: sw reg on stack, init vars: sp, a0=n=4, t0=a0
 
 tri_num:
 

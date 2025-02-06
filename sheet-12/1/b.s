@@ -13,7 +13,7 @@
 # Assembly Code:
 
 # nested calculator of triangular numbers
-# Precondition: sw reg on stack, init var a0=4, t0=a0, t1=2
+# Precondition: sw reg on stack, init vars: sp, a0=4, t0=a0, t1=2
 
 tri_num_nested:
 

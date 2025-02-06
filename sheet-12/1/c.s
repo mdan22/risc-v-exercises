@@ -10,9 +10,8 @@
 
 # Assembly Code:
 
-# Dreieckssumme
-# a0 (x10) Parameter / Return
-# sp (x2)
+# calculator of triangular numbers using recursion
+# Precondition: sw reg on stack, init vars: sp, a0=n=4
 
 # init stack pointer
 lui sp, 0x10000
