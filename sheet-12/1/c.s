@@ -1,11 +1,11 @@
 # Pseudocode:
 
-# recursive_tri_num():
-#   n = 4
-# if(n=1) then
-#   return 1;
-# else
-#   return n + recursive_tri_num(n-1)
+# recursive_tri_num(int n) {
+#   if(n=1) then
+#     return 1;
+#   else
+#     return n + recursive_tri_num(n-1)
+# }
 
 
 # Assembly Code:
@@ -14,10 +14,11 @@
 # a0 (x10) Parameter / Return
 # sp (x2)
 
+# init stack pointer
+lui sp, 0x10000
+
 # load example 4 into a0
 ADDI a0, x0, 4
-# init stack pointer to 256 (use hex for addresses)
-ADDI sp, x0, 0x100
 
 # Function call(s)
 JAL ra, Tri_Num

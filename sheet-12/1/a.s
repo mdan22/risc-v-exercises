@@ -15,7 +15,7 @@
 
 tri_num:
 
-# Initialize stack pointer
+# init stack pointer
 lui sp, 0x10000   # Set stack pointer to 0x10000000 (safe memory address), lower bits are automatically set to 0
 
 # save t0 on stack
