@@ -1,24 +1,12 @@
 # Pseudocode:
 
-# for-loop:
-# a0 = 4
-# t0 = a0
+# tri_num(int n) {
+#   int accumulator = n
 #
-# do
-#   t1--
-#   a0 += t1
-# while (t1!=0)
-# done
-
-# using if:
-# a0 = 4
-# t0 = a0
-#
-# t1--
-# a0 += t1
-# if (t0!=0)
-#   go to line 17
-# end if;
+#   for (int i = accumulator, i > 0, i--) {
+#     accumulator += j
+#   }
+# }
 
 
 # Assembly Code:

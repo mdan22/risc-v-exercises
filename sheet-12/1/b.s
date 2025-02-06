@@ -1,19 +1,14 @@
 # Pseudocode:
 
-# trinum(trinum(n))
-#   a0 = 4
+# tri_num_nested(int n, int nestings) {
+#   int accumulator = n
 #
-# trinum:
-#   do-while-loop:
-#   t0 = a0
-#   t1 = 1
-#
-#   do
-#     a0 += t1
-#     t1++
-#   while (t1!=t0)
-#   done
-
+#   for (int i = nestings, i > 0, i--) {
+#     for (int j = accumulator, j > 0, j--) {
+#       accumulator += j
+#     }
+#   }
+# }
 
 # Assembly Code:
 
