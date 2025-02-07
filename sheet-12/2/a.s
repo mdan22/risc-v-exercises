@@ -70,4 +70,4 @@ beq t0, x0, end
 jalr x0, ra, 0
 
 end:
-# end of program, a0 contains amount of ETI occurances
+# end of program, a0 contains amount of ETI matches
