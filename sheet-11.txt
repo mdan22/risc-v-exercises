@@ -1,0 +1,25 @@
+Aufgabe 0)
+
+# Pseudocode
+
+# IF (x1==x2) THEN
+#   x10=0;
+# ELSE
+#   x10=1;
+# END IF;
+
+# Assembler
+
+BNE x1, x2, L1  # if x1 != x2, jump to L1
+ADDI x10, x0, 0 # then block
+JAL x0, L2      # jump to L2
+
+L1:
+ADDI x10, x0, 1 # else block
+
+L2:
+ADD x1, x1, x2  # whatever comes next
+
+
+Aufgabe 1a)
+
