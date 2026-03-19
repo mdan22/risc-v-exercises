@@ -10,16 +10,101 @@ Aufgabe 0)
 
 # Assembler
 
-BNE x1, x2, L1  # if x1 != x2, jump to L1
-ADDI x10, x0, 0 # then block
-JAL x0, L2      # jump to L2
+# register initialisieren
+
+addi x1, x0, 5    # x1 = 5
+addi x2, x0, 3    # x2 = 3
+
+# actual program
+
+bne x1, x2, L1    # if x1 != x2, springe zu L1
+addi x10, x0, 0   # then-block: x10 = 0
+jal x0, L2        # springe zu L2
 
 L1:
-ADDI x10, x0, 1 # else block
+addi x10, x0, 1   # else-block: x10 = 1
 
 L2:
-ADD x1, x1, x2  # whatever comes next
+add x1, x1, x2    # was auch immer danach kommt
 
 
 Aufgabe 1a)
 
+# Pseudocode
+
+# IF (x1==x2) THEN
+#   x10=0;
+# ELSE
+#   x10=1;
+# END IF;
+
+# Assembler
+
+# register initialisieren
+
+addi x1, x0, 5    # x1 = 5
+addi x2, x0, 3    # x2 = 3
+
+# actual program
+
+beq x1, x2, L1    # if x1 == x2, springe zu L1
+addi x10, x0, 1   # else block
+jal x0, L2        # überspring then block
+
+L1:
+addi x10, x0, 0   # then block
+
+L2:
+add x1, x1, x2    # was auch immer danach kommt
+
+# Beide Varianten bne und beq sind gleichteuer von den Kosten her. Aber aus Code-Readability-Gründen macht es in diesem Fall (also bei "==" Bedingungen) mehr Sinn, bne zu benutzen, weil der then-Teil vor dem else-Teil kommt. Dadurch ist das if-then-else-Konstrukt direkt erkennbar.
+
+
+# Aufgabe 1b)
+
+# Pseudocode
+
+# IF ((x1==x2)&&(x3==x4)) THEN
+#   x10=0;
+# ELSE
+#   x10=1;
+# END IF;
+
+# Pseudocode (ohne "&&")
+
+# IF (x1==x2) THEN
+#   IF (x3==x4) THEN
+#     x10=0;
+#   ELSE
+#     x10=1;
+# ELSE
+#   x10=1;
+# END IF;
+
+# Assembler
+
+# operanden initialisieren
+
+addi x1, x0, 5    # x1 = 5
+addi x2, x0, 5    # x2 = 5
+addi x3, x0, 3    # x3 = 3
+addi x4, x0, 3    # x4 = 3
+
+# actual program
+
+# outer if-then-else {
+  bne x1, x2, L1    # if x1 != x2, springe zu L1
+
+  # inner if-then-else { # outer then-block
+    bne x3, x4, L1   # if x3 != x4, springe zu L1
+
+    addi x10, x0, 1   # inner then-block: x10 = 1
+    jal x0, L2        # springe zu L2
+  # } inner if-then-else
+
+  L1:
+  addi x10, x0, 0   # general else-block: x10 = 0
+# } outer if-then-else
+
+L2:
+add x1, x1, x2    # was auch immer danach kommt
