@@ -65,46 +65,260 @@ add x1, x1, x2    # was auch immer danach kommt
 # Pseudocode
 
 # IF ((x1==x2)&&(x3==x4)) THEN
-#   x10=0;
-# ELSE
 #   x10=1;
+# ELSE
+#   x10=0;
 # END IF;
 
 # Pseudocode (ohne "&&")
 
 # IF (x1==x2) THEN
 #   IF (x3==x4) THEN
-#     x10=0;
-#   ELSE
 #     x10=1;
+#   ELSE
+#     x10=0;
 # ELSE
-#   x10=1;
+#   x10=0;
 # END IF;
 
 # Assembler
 
 # operanden initialisieren
 
-addi x1, x0, 5    # x1 = 5
-addi x2, x0, 5    # x2 = 5
-addi x3, x0, 3    # x3 = 3
-addi x4, x0, 3    # x4 = 3
+addi x1, x0, 5            # x1 = 5
+addi x2, x0, 5            # x2 = 5
+addi x3, x0, 3            # x3 = 3
+addi x4, x0, 3            # x4 = 3
+addi x10, x0, 0           # x10 = 0
 
 # actual program
 
 # outer if-then-else {
-  bne x1, x2, L1    # if x1 != x2, springe zu L1
+  bne x1, x2, L1          # if x1 != x2, springe zu L1
 
-  # inner if-then-else { # outer then-block
-    bne x3, x4, L1   # if x3 != x4, springe zu L1
-
-    addi x10, x0, 1   # inner then-block: x10 = 1
-    jal x0, L2        # springe zu L2
+  # inner if-then-else {  # outer then-block
+    bne x3, x4, L1        # if x3 != x4, springe zu L1
+    addi x10, x0, 1       # inner then-block: x10 = 1
+    jal x0, L2            # springe zu L2
   # } inner if-then-else
 
   L1:
-  addi x10, x0, 0   # general else-block: x10 = 0
+  addi x10, x0, 0         # general else-block: x10 = 0
 # } outer if-then-else
 
 L2:
-add x1, x1, x2    # was auch immer danach kommt
+add x1, x1, x2            # was auch immer danach kommt
+
+
+# Aufgabe 1c)
+
+# Pseudocode
+
+# IF ((x1==x2)||(x3==x4)) THEN
+#   x10=0;
+# ELSE
+#   x10=1;
+# END IF;
+
+# Pseudocode (ohne "||")
+
+# IF (x1==x2) THEN
+#   x10=1;
+# ELSE
+#   IF (x3==x4) THEN
+#     x10=1;
+#   ELSE
+#     x10=0;
+# END IF;
+
+
+# Assembler
+
+# operanden initialisieren
+
+addi x1, x0, 5            # x1 = 5
+addi x2, x0, 5            # x2 = 5
+addi x3, x0, 3            # x3 = 3
+addi x4, x0, 3            # x4 = 3
+addi x10, x0, 0           # x10 = 0
+
+# actual program
+
+# outer if-then-else {
+    bne x1, x2, L3        # if x1 != x2, springe zu L1
+    addi x10, x0, 1       # inner then-block: x10 = 1
+    jal x0, L2            # springe zu L2
+
+L3:
+  # inner if-then-else {  # outer then-block
+      bne x3, x4, L1      # if x3 != x4, springe zu L1
+      addi x10, x0, 1     # inner then-block: x10 = 1
+      jal x0, L2          # springe zu L2
+  # } inner if-then-else
+
+  L1:
+  addi x10, x0, 0         # general else-block: x10 = 0
+# } outer if-then-else
+
+L2:
+add x1, x1, x2            # was auch immer danach kommt
+
+
+# Aufgabe 1d)
+
+# Aufgabe 1b) ist bereits optimal. Aber Aufgabe 1c) kann man noch durch beq statt bne optimieren:
+
+# operanden initialisieren
+
+addi x1, x0, 5            # x1 = 5
+addi x2, x0, 5            # x2 = 5
+addi x3, x0, 3            # x3 = 3
+addi x4, x0, 3            # x4 = 3
+addi x10, x0, 0           # x10 = 0
+
+# actual program
+
+# outer if-then-else {
+  beq x1, x2, L1          # if x1 == x2, springe zu L1
+
+  # inner if-then-else {  # outer then-block
+    beq x3, x4, L1        # if x3 == x4, springe zu L1
+    addi x10, x0, 0       # inner then-block: x10 = 0
+    jal x0, L2            # springe zu L2
+  # } inner if-then-else
+
+  L1:
+  addi x10, x0, 1         # general else-block: x10 = 1
+# } outer if-then-else
+
+L2:
+add x1, x1, x2            # was auch immer danach kommt
+
+
+# Aufgabe 1e)
+
+# Pseudocode
+
+# IF (x1==x2) THEN
+#   x10=1;
+# ELSIF (x3==x4) THEN
+#   x10=2;
+# ELSE
+#   x10=3;
+# END IF;
+
+# Assembler
+
+# operanden initialisieren
+
+addi x1, x0, 4            # x1 = 4
+addi x2, x0, 5            # x2 = 5
+addi x3, x0, 2            # x3 = 2
+addi x4, x0, 3            # x4 = 3
+addi x10, x0, 0           # x10 = 0
+
+# actual program
+
+# if then {
+  bne x1, x2, L1          # if x1 != x2, springe zu L1
+    addi x10, x0, 1       # x10 = 1
+    jal x0, L3            # springe zu L3
+# }
+# elsif {
+  L1:
+  bne x3, x4, L2          # if x3 != x4, springe zu L2
+    addi x10, x0, 2       # x10 = 2
+    jal x0, L3            # springe zu L3
+# }
+# else {
+  L2:
+    addi x10, x0, 3       # x10 = 3
+# }
+
+L3:
+add x1, x1, x2            # was auch immer danach kommt
+
+
+# Aufgabe 1f)
+
+# Pseudocode (case statement)
+
+# switch(x1) {
+#   case (0):
+#     x10+=x0;
+#   case (1):
+#     x10+=x1;
+#   case (2):
+#     x10+=x2;
+#   case (3):
+#     x10+=x3;
+# }
+
+
+# Pseudocode (as if then elsif else)
+
+# IF (x1==0) THEN
+#   x10+=x0;
+# ELSIF (x1==1) THEN
+#   x10+=x2;
+# ELSIF (x1==2) THEN
+#   x10+=x3;
+# ELSIF (x1==3) THEN
+#   x10+=x4;
+# ELSE
+#   x10=0;
+# END IF;
+
+# Assembler
+
+# operanden initialisieren
+
+addi x1, x0, 1            # x1 = 1
+
+addi x2, x0, 1            # x2 = 1
+addi x3, x0, 2            # x3 = 2
+addi x4, x0, 3            # x4 = 3
+
+addi t0, x0, 0            # set counter to 0
+
+addi x10, x0, 0           # set result to 0
+
+# actual program
+
+# if then {
+  bne x1,t0, L1          # if x1 != 0, springe zu L1
+    add x10, x10, x0      # x10 += x0
+    jal x0, L5           # springe zu L5
+# }
+# elsif {
+  L1:
+  addi t0, t0, 1           # increment counter
+  bne x1, t0, L2          # if x1 != 1, springe zu L2
+    add x10, x10, x2       # x10 += x2
+    jal x0, L5            # springe zu L5
+# }
+# elsif {
+  L2:
+  addi t0, t0, 1           # increment counter
+  bne x1, t0, L3          # if x1 != 2, springe zu L3
+    add x10, x10, x3       # x10 += x3
+    jal x0, L5            # springe zu L5
+# }
+# elsif {
+  L3:
+  addi t0, t0, 1           # increment counter
+  bne x1, t0, L4          # if x1 != 3, springe zu L4
+    add x10, x10, x4       # x10 += x4
+    jal x0, L5            # springe zu L5
+# }
+# else {
+  L4:
+    addi x10, x0, 0       # x10 = 0
+# }
+
+addi t0, x0, 0             # reset counter
+
+L5:
+add x1, x1, x2            # was auch immer danach kommt
+
+# Aufgabe 2a)
