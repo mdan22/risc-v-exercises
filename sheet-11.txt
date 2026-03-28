@@ -15,7 +15,7 @@ Aufgabe 0)
 addi x1, x0, 5    # x1 = 5
 addi x2, x0, 3    # x2 = 3
 
-# actual program
+# Actual program
 
 bne x1, x2, L1    # if x1 != x2, springe zu L1
 addi x10, x0, 0   # then-block: x10 = 0
@@ -45,7 +45,7 @@ Aufgabe 1a)
 addi x1, x0, 5    # x1 = 5
 addi x2, x0, 3    # x2 = 3
 
-# actual program
+# Actual program
 
 beq x1, x2, L1    # if x1 == x2, springe zu L1
 addi x10, x0, 1   # else block
@@ -83,7 +83,7 @@ add x1, x1, x2    # was auch immer danach kommt
 
 # Assembler
 
-# operanden initialisieren
+# Operanden initialisieren
 
 addi x1, x0, 5            # x1 = 5
 addi x2, x0, 5            # x2 = 5
@@ -91,7 +91,7 @@ addi x3, x0, 3            # x3 = 3
 addi x4, x0, 3            # x4 = 3
 addi x10, x0, 0           # x10 = 0
 
-# actual program
+# Actual program
 
 # outer if-then-else {
   bne x1, x2, L1          # if x1 != x2, springe zu L1
@@ -134,7 +134,7 @@ add x1, x1, x2            # was auch immer danach kommt
 
 # Assembler
 
-# operanden initialisieren
+# Operanden initialisieren
 
 addi x1, x0, 5            # x1 = 5
 addi x2, x0, 5            # x2 = 5
@@ -142,7 +142,7 @@ addi x3, x0, 3            # x3 = 3
 addi x4, x0, 3            # x4 = 3
 addi x10, x0, 0           # x10 = 0
 
-# actual program
+# Actual program
 
 # outer if-then-else {
     bne x1, x2, L3        # if x1 != x2, springe zu L1
@@ -168,7 +168,7 @@ add x1, x1, x2            # was auch immer danach kommt
 
 # Aufgabe 1b) ist bereits optimal. Aber Aufgabe 1c) kann man noch durch beq statt bne optimieren:
 
-# operanden initialisieren
+# Operanden initialisieren
 
 addi x1, x0, 5            # x1 = 5
 addi x2, x0, 5            # x2 = 5
@@ -176,7 +176,7 @@ addi x3, x0, 3            # x3 = 3
 addi x4, x0, 3            # x4 = 3
 addi x10, x0, 0           # x10 = 0
 
-# actual program
+# Actual program
 
 # outer if-then-else {
   beq x1, x2, L1          # if x1 == x2, springe zu L1
@@ -209,7 +209,7 @@ add x1, x1, x2            # was auch immer danach kommt
 
 # Assembler
 
-# operanden initialisieren
+# Operanden initialisieren
 
 addi x1, x0, 4            # x1 = 4
 addi x2, x0, 5            # x2 = 5
@@ -217,7 +217,7 @@ addi x3, x0, 2            # x3 = 2
 addi x4, x0, 3            # x4 = 3
 addi x10, x0, 0           # x10 = 0
 
-# actual program
+# Actual program
 
 # if then {
   bne x1, x2, L1          # if x1 != x2, springe zu L1
@@ -271,7 +271,7 @@ add x1, x1, x2            # was auch immer danach kommt
 
 # Assembler
 
-# operanden initialisieren
+# Operanden initialisieren
 
 addi x1, x0, 1            # x1 = 1
 
@@ -283,7 +283,7 @@ addi t0, x0, 0            # set counter to 0
 
 addi x10, x0, 0           # set result to 0
 
-# actual program
+# Actual program
 
 # if then {
   bne x1,t0, L1          # if x1 != 0, springe zu L1
@@ -322,3 +322,99 @@ L5:
 add x1, x1, x2            # was auch immer danach kommt
 
 # Aufgabe 2a)
+
+# Pseudocode
+
+# WHILE (t0 <= x2) {
+# x10 += x1
+# t0 += 1
+# }
+
+# Assembler
+
+# Operanden initialisieren
+
+addi x1, x0, 1            # 1.Faktor x1 = 1
+addi x2, x0, 3            # 2.Faktor x2 = 3
+addi t0, x0, 1            # set counter to 1
+addi x10, x0, 0           # set result to 0
+
+# Actual program
+
+L1:
+blt x2, t0, L2
+  add x10, x10, x1
+  addi t0, t0, 1
+  jal x0, L1
+
+L2:
+add x1, x1, x2            # was auch immer danach kommt
+
+
+# Aufgabe 2b)
+
+# Pseudocode
+
+# DO {
+#   x10 += x1
+#   t0 += 1
+# } WHILE (t0 <= x2);
+
+# Assembler
+
+# Operanden initialisieren
+
+addi x1, x0, 1            # 1.Faktor x1 = 1
+addi x2, x0, 3            # 2.Faktor x2 = 3
+addi t0, x0, 1            # set counter to 1
+addi x10, x0, 0           # set result to 0
+
+# Actual program
+
+L1:
+  add x10, x10, x1
+  addi t0, t0, 1
+  bge x2, t0, L1
+add x1, x1, x2            # was auch immer danach kommt
+
+
+# Aufgabe 2c)
+
+# Pseudocode
+
+# WHILE (t0 <= x2) {
+# x10 += x1
+# t0 += 1
+# }
+
+# Assembler
+
+# Operanden initialisieren
+
+addi x1, x0, 3            # Basis x1 = 3
+addi x2, x0, 3            # Exponent x2 = 3
+addi t0, x0, 1            # set counter i to 1
+addi t1, x0, 1            # set counter j to 1
+
+addi x10, x0, 0           # set result to 0
+
+# Actual program
+
+L1:
+blt x1, t0, L3
+  addi t0, t0, 1          # increment counter i
+  addi t1, x0, 1          # reset counter j to 1
+  L2:
+  blt x2, t1, L1
+    add x10, x10, x1      # accumulate the basis 3 to x10
+    addi t1, t1, 1        # increment counter j
+    jal x0, L2
+
+  jal x0, L1
+
+L3:
+add x1, x1, x2            # was auch immer danach kommt
+
+
+# Aufgabe 3
+
