@@ -418,3 +418,24 @@ add x1, x1, x2            # was auch immer danach kommt
 
 # Aufgabe 3
 
+# Initialization
+
+lui x2, 0b110010110101010101  # initialize upper 20 bits of input value
+addi x2, x2, 0b0101010101     # initialize lower 12 bits of input value
+addi x3, x0, 0                # set result register to 0
+addi t0, x0, 0                # set temp variable to 0
+
+# Actual program
+
+L1:
+beq x0, x2, L2
+
+andi t0, x2, 1                # bitweises AND von x2 mit 1 ergibt nur dann 1, wenn lsb 1 ist.
+add x3, x3, t0                # temporäres ergebnis 0 oder  1 auf endergebnis draufaddieren
+
+srli x2, x2, 1                # logical shift (da mit nullen aufgefüllt wird) nach rechts von x2 um 1 Stelle
+
+jal x0, L1
+
+L2:
+add x1, x1, x2    # was auch immer danach kommt
