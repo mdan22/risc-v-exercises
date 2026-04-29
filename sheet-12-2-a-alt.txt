@@ -1,0 +1,11 @@
+# Pseudocode
+
+# int x10 = 0
+# while (true) {
+#   if(t1 = 'E' && t2 = 'T' && t3 = 'I') {
+#     x10++;
+#   }
+#   t1 = t2
+#   t2 = t3
+#   t3 = loadNextByte()
+# }

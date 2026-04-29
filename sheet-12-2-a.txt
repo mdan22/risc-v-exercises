@@ -1,0 +1,29 @@
+# Pseudocode
+
+# int a0 = 0
+# int t0 = 0
+# int t1 = 0
+# while(true) {
+#   t0 = loadNextByte()  
+#   switch(t0) {
+#     case ('E'):
+#       t1 = 'E';
+#       break;
+#     case ('T'):
+#       if(if t1 = 'E')
+#         t1 = 'T'
+#       else
+#         t1 = 0
+#       break;
+#     case ('I'):
+#       if(if t1 = 'T')
+#         t1 = 'I'
+#         a0++
+#       else
+#         t1 = 0
+#       break;
+#     default:
+#       t1 = 0
+#       break;
+#   }  
+# }

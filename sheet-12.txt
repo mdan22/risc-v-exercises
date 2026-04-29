@@ -1,0 +1,301 @@
+Aufgabe 1a)
+
+# Pseudocode
+
+# n = 4
+# temp = n
+
+# while (temp > 0) {
+#   temp--;
+#   n += temp;
+# }
+
+
+# Assembler
+
+# initialize n
+addi a0, x0, 4
+
+# store temp on stack
+addi sp, sp, -4
+sw t0, 0(sp)
+
+# initialize temp
+addi t0, a0, 0
+
+# actual function
+trinum:
+addi t0, t0, -1
+beq t0, x0, loop_end
+add a0, a0, t0
+jal x0, trinum
+loop_end:
+
+# restore temp from stack
+lw t0, 0(sp)
+addi sp, sp, 4
+
+
+Aufgabe 1b)
+
+# Pseudocode
+
+# n = 5
+# trinum(trinum(n))
+
+
+# Assembler
+
+main:
+  # initialize n
+  addi a0, x0, 5
+
+  # store ra on stack
+  addi sp, sp, -4
+  sw ra, 0(sp)
+
+  jal ra, trinum
+  jal ra, trinum
+
+  # restore ra from stack
+  lw ra, 0(sp)
+  addi sp, sp, 4
+  
+  jal x0, end
+
+trinum:
+  # store temp on stack
+  addi sp, sp, -4
+  sw t0, 0(sp)
+
+  # initialize temp
+  addi t0, a0, 0
+
+  # actual function
+  loop:
+  addi t0, t0, -1
+  beq t0, x0, loop_end
+  add a0, a0, t0
+  jal x0, loop
+  loop_end:
+
+  # restore temp from stack
+  lw t0, 0(sp)
+  addi sp, sp, 4
+
+  # jump back
+  jalr x0, ra, 0
+
+end:
+# whatever comes next
+addi x0, x0, 0
+
+
+Aufgabe 1c)
+
+# Pseudocode
+
+# trinum(int n) {
+#   if (n == 1) {
+#     return 1;
+#   }
+#   else {
+#     return n + trinum(n-1);
+#   }
+# }
+
+
+# Assembler
+
+main:
+
+  # store temporaries on stack
+  addi sp, sp, -8
+  sw t0, 4(sp)
+  sw t1, 0(sp)
+
+  # initialize n
+  addi a0, x0, 4
+
+  # trinum function call with n = 4
+  jal ra, trinum
+
+  # restore temporaries from stack
+  lw t1, 0(sp)
+  lw t0, 4(sp)
+  addi sp, sp, 8
+
+  jal x0, end
+
+trinum:
+  # store ra, a0 on stack
+  addi sp, sp, -8
+  sw ra, 4(sp)
+  sw a0, 0(sp)
+
+  addi t0, a0, -1 # store n-1 in t0 for bne
+  bne t0, x0, L1 # base case: if (n = 1) -> termination condition at n = 1
+  addi a0, x0, 1 # return 1
+  addi sp, sp, 8 # pop stack
+  jalr x0, ra, 0 # jmp back to ra of last recursive caller
+
+  L1:
+  addi a0, a0, -1
+  jal ra, trinum
+  addi t1, a0, 0
+
+  # restore a0, ra from stack
+  lw a0, 0(sp)
+  lw ra, 4(sp)
+  addi sp, sp, 8
+
+  add a0, t1, a0
+  jalr x0, ra, 0
+
+end:
+addi x0, x0, 0 # whatever comes next
+
+
+Aufgabe 2
+
+# Pseudocode (brute force)
+
+# int x10 = 0
+# while (true) {
+#   if(t1 = 'E' && t2 = 'T' && t3 = 'I') {
+#     x10++;
+#   }
+#   t1 = t2
+#   t2 = t3
+#   t3 = loadNextByte()
+# }
+
+
+# Pseudocode (Automat)
+
+# int a0 = 0
+# int t0 = 0
+# int t1 = 0
+# while(true) {
+#   t0 = loadNextByte()  
+#   switch(t0) {
+#     case ('E'):
+#       t1 = 'E';
+#       break;
+#     case ('T'):
+#       if(t1 = 'E')
+#         t1 = 'T'
+#       else
+#         t1 = 0
+#       break;
+#     case ('I'):
+#       if(t1 = 'T')
+#         t1 = 'I'
+#         a0++
+#       else
+#         t1 = 0
+#       break;
+#     default:
+#       t1 = 0
+#       break;
+#   }  
+# }
+
+
+# Pseudocode (Automat aber mit if-else Konstrukten )
+
+# int a0 = 0
+# int t0 = 0
+# int t1 = 0
+# while(true) {
+#   t0 = loadNextByte()  
+#   if(t0 = 'E') {
+#     t1 = 'E';
+#   }
+#   else if(t0 = 'T') {
+#     if(t1 = 'E')
+#       t1 = 'T'
+#     else
+#       t1 = 0
+#     break;
+#   }
+#   else if (t0 = 'I') {
+#     if(t1 = 'T')
+#       t1 = 'I'
+#       a0++
+#     else
+#       t1 = 0
+#     break;
+#   }
+#   else {
+#     t1 = 0
+#     break;
+#   }
+# }
+
+
+# Assembler (Automat)
+
+# store temps on stack
+addi sp, sp, -28
+sw t0, 24(sp)
+sw t1, 20(sp)
+sw t2, 16(sp)
+sw t3, 12(sp)
+sw t4, 8(sp)
+sw t5, 4(sp)
+sw t6, 0(sp)
+
+addi t3, x0, 69 # 'E' = 69
+addi t4, x0, 84 # 'T' = 84
+addi t5, x0, 73 # 'I' = 73
+addi t6, x0, 88 # 'X' = 88
+
+lui t2, 0x10000 # load upper bits of destination-address in t2
+
+# load test bytes to test the program
+sb t6, 0(t2)
+sb t3, 1(t2)
+sb t4, 2(t2)
+sb t6, 3(t2)
+sb t3, 4(t2)
+sb t4, 5(t2)
+sb t5, 6(t2)
+
+loop:
+  lbu t0, 0x000(t2) # load unsigned byte - unsigned bc we don't want 
+                    # sign extension - of address with lower 12 bits 
+                    # "0x000" and upper 20 bits stored in t2
+
+  # increment t2 so the next "zeichen" meaning next adress is loaded each loop iteration (to test the program)
+  
+  addi t2, t2, 1
+
+  bne t0, t3, L1
+    addi t1, x0, 69 # 'E' = 69
+    jal x0, loop
+  L1:
+  bne t0, t4, L2
+    bne t1, t3, default
+      addi t1, x0, 84 # 'T' = 84
+      jal x0, loop
+  L2:
+  bne t0, t5, default
+    bne t1, t4, default
+      addi t1, x0, 73 # 'I' = 73
+      addi a0, a0, 1
+      jal x0, loop
+    jal x0, loop
+  default:
+  addi t1, x0, 0
+  jal x0, loop
+
+# restore temps from stack
+lw t6, 0(sp)
+lw t5, 4(sp)
+lw t4, 8(sp)
+lw t3, 12(sp)
+lw t2, 16(sp)
+lw t1, 20(sp)
+lw t0, 24(sp)
+addi sp, sp, +28

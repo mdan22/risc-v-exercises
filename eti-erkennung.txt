@@ -1,0 +1,65 @@
+
+# Assembler (Automat)
+
+# store temps on stack
+addi sp, sp, -28
+sw t0, 24(sp)
+sw t1, 20(sp)
+sw t2, 16(sp)
+sw t3, 12(sp)
+sw t4, 8(sp)
+sw t5, 4(sp)
+sw t6, 0(sp)
+
+addi t3, x0, 'E'
+addi t4, x0, 'T'
+addi t5, x0, 'I'
+addi t6, x0, 'X'
+
+lui t2, 0x10000 # load upper bits of destination-address in t2
+
+# load test bytes to test the program
+sb t6, 0(t2)
+sb t3, 1(t2)
+sb t4, 2(t2)
+sb t6, 3(t2)
+sb t3, 4(t2)
+sb t4, 5(t2)
+sb t5, 6(t2)
+
+loop:
+  lbu t0, 0x000(t2) # load unsigned byte (unsigned bc we don't want 
+                    # sign extension) of address with lower 12 bits 
+                    # "0x000" and upper 20 bits stored in t2
+
+  # increment t2 so the next adress is loaded each loop iteration (tp test the program)
+  addi t2, t2, 1
+
+  bne t0, t3, L1
+    addi t1, x0, 'E'
+    jal x0, loop
+  L1:
+  bne t0, t4, L2
+    bne t1, t3, default
+      addi t1, x0, 'T'
+      jal x0, loop
+  L2:
+  bne t0, t5, default
+    bne t1, t4, default
+      addi t1, x0, 'I'
+      addi a0, a0, 1
+      jal x0, loop
+    jal x0, loop
+  default:
+  addi t1, x0, 0
+  jal x0, loop
+
+# restore temps from stack
+lw t6, 0(sp)
+lw t5, 4(sp)
+lw t4, 8(sp)
+lw t3, 12(sp)
+lw t2, 16(sp)
+lw t1, 20(sp)
+lw t0, 24(sp)
+addi sp, sp, +28
